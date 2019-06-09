@@ -52,17 +52,17 @@ public class EventService extends DbUtil {
     }
 
     public Map<String, Set<Event>> getEventMap(String logFilePath) throws IOException {
-        List<String> eventListStr = getEventList(logFilePath);
-        List<Event> eventList = getEventList(eventListStr);
-        return getEventMap(eventList);
+        Set<String> eventSetStr = getEventSet(logFilePath);
+        Set<Event> eventSet = getEventSet(eventSetStr);
+        return getEventMap(eventSet);
     }
 
-    private Map<String, Set<Event>> getEventMap(List<Event> eventList) {
+    private Map<String, Set<Event>> getEventMap(Set<Event> allEventSet) {
         Map<String, Set<Event>> map = new HashMap<>();
-        for (Event event : eventList) {
+        for (Event event : allEventSet) {
             map.put(event.getId(), new HashSet<Event>());
         }
-        for (Event event : eventList) {
+        for (Event event : allEventSet) {
             map.get(event.getId()).add(event);
         }
         return map;
@@ -90,24 +90,24 @@ public class EventService extends DbUtil {
         return Math.abs(timestamp.get(0).getTime() - timestamp.get(1).getTime());
     }
 
-    private List<String> getEventList(String logFilePath) throws IOException {
+    private Set<String> getEventSet(String logFilePath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(logFilePath));
-        List<String> logList = new ArrayList<>();
+        Set<String> logSet = new HashSet<>();
         String line;
         while ((line = reader.readLine()) != null) {
-            logList.add(line);
+            logSet.add(line);
         }
         reader.close();
-        return logList;
+        return logSet;
     }
 
-    private List<Event> getEventList(List<String> eventListStr) throws IOException {
-        List<Event> eventList = new ArrayList<>();
+    private Set<Event> getEventSet(Set<String> eventSetStr) throws IOException {
+        Set<Event> eventSet = new HashSet<>();
         ObjectMapper mapper = new ObjectMapper();
-        for (String event : eventListStr) {
+        for (String event : eventSetStr) {
             Event result = mapper.readValue(event, Event.class);
-            eventList.add(result);
+            eventSet.add(result);
         }
-        return eventList;
+        return eventSet;
     }
 }
