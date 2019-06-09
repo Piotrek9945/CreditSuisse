@@ -5,11 +5,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class HelloGradleTest {
+public class MainTest {
 
     @Test
     public void testSalutationMessage() {
-        HelloGradle hg = new HelloGradle();
+        Main hg = new Main();
         assertEquals(3, hg.tescik());
     }
 
