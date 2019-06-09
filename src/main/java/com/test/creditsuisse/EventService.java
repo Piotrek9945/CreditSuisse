@@ -101,7 +101,7 @@ public class EventService extends DbUtil {
         return logSet;
     }
 
-    private Set<Event> getEventSet(Set<String> eventSetStr) throws IOException {
+    public Set<Event> getEventSet(Set<String> eventSetStr) throws IOException {
         Set<Event> eventSet = new HashSet<>();
         ObjectMapper mapper = new ObjectMapper();
         for (String event : eventSetStr) {
